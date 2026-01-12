@@ -3,16 +3,17 @@ package br.com.igorbag.githubsearch.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.igorbag.githubsearch.R
 import br.com.igorbag.githubsearch.domain.Repository
 
-class RepositoryAdapter(private val repositories: List<Repository>) :
-    RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
-
-    var carItemLister: (Repository) -> Unit = {}
-    var btnShareLister: (Repository) -> Unit = {}
+class RepositoryAdapter(
+    private val repositories: List<Repository>,
+    private val carItemLister: (Repository) -> Unit,
+    private val btnShareLister: (Repository) -> Unit
+    ) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
 
     // Cria uma nova view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,6 +33,10 @@ class RepositoryAdapter(private val repositories: List<Repository>) :
         holder.itemView.setOnClickListener {
             carItemLister(repository)
         }
+
+        holder.ivShare.setOnClickListener {
+            btnShareLister(repository)
+        }
     }
 
     // Pega a quantidade de repositorios da lista
@@ -42,10 +47,12 @@ class RepositoryAdapter(private val repositories: List<Repository>) :
         //@TODO 10 - Implementar o ViewHolder para os repositorios
 
         val txtRepoName: TextView
+        val ivShare: ImageView
 
         init {
             view.apply {
                 txtRepoName = findViewById(R.id.tv_nome_repositorio)
+                ivShare = findViewById(R.id.iv_share)
             }
         }
 
